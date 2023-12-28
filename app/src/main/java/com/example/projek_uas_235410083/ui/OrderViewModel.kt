@@ -1,22 +1,7 @@
-/*
- * Copyright (C) 2023 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-package com.example.cupcake.ui
+package com.example.projek_uas_235410083.ui
 
 import androidx.lifecycle.ViewModel
-import com.example.cupcake.data.OrderUiState
+import com.example.projek_uas_235410083.data.OrderUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,27 +11,21 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-/** Price for a single cupcake */
+/** harga untuk kue tunggal */
 private const val PRICE_PER_CUPCAKE = 2.00
 
-/** Additional cost for same day pickup of an order */
+/** Biaya tambahan untuk pengambilan pesanan di hari yang sama */
 private const val PRICE_FOR_SAME_DAY_PICKUP = 3.00
 
-/**
- * [OrderViewModel] holds information about a cupcake order in terms of quantity, flavor, and
- * pickup date. It also knows how to calculate the total price based on these order details.
- */
+/** [OrderViewModel] menyimpan informasi tentang pesanan kue dalam hal kuantitas, rasa, dan
+ * tanggal pengambilan. Ia juga tahu bagaimana menghitung harga total berdasarkan detail pesanan.*/
 class OrderViewModel : ViewModel() {
 
-    /**
-     * Cupcake state for this order
-     */
+    /** state kue untuk pesanan*/
     private val _uiState = MutableStateFlow(OrderUiState(pickupOptions = pickupOptions()))
     val uiState: StateFlow<OrderUiState> = _uiState.asStateFlow()
 
-    /**
-     * Set the quantity [numberCupcakes] of cupcakes for this order's state and update the price
-     */
+    /** Tetapkan kuantitas [numberCupcakes] kue untuk status pesanan dan perbarui harga */
     fun setQuantity(numberCupcakes: Int) {
         _uiState.update { currentState ->
             currentState.copy(
@@ -56,19 +35,14 @@ class OrderViewModel : ViewModel() {
         }
     }
 
-    /**
-     * Set the [desiredFlavor] of cupcakes for this order's state.
-     * Only 1 flavor can be selected for the whole order.
-     */
+    /**  Atur [DesiredFlavor] kue untuk status pesanan.* Hanya 1 rasa yang dapat dipilih untuk seluruh pesanan. */
     fun setFlavor(desiredFlavor: String) {
         _uiState.update { currentState ->
             currentState.copy(flavor = desiredFlavor)
         }
     }
 
-    /**
-     * Set the [pickupDate] for this order's state and update the price
-     */
+    /** Atur [PickUpdate] untuk status pesanan dan perbarui harga */
     fun setDate(pickupDate: String) {
         _uiState.update { currentState ->
             currentState.copy(
@@ -78,22 +52,18 @@ class OrderViewModel : ViewModel() {
         }
     }
 
-    /**
-     * Reset the order state
-     */
+    /** Untuk reset pesanan */
     fun resetOrder() {
         _uiState.value = OrderUiState(pickupOptions = pickupOptions())
     }
 
-    /**
-     * Returns the calculated price based on the order details.
-     */
+    /** Mengembalikan harga yang dihitung berdasarkan detail pesanan.*/
     private fun calculatePrice(
         quantity: Int = _uiState.value.quantity,
         pickupDate: String = _uiState.value.date
     ): String {
         var calculatedPrice = quantity * PRICE_PER_CUPCAKE
-        // If the user selected the first option (today) for pickup, add the surcharge
+        /** Jika pengguna memilih opsi pertama (hari ini) untuk pengambilan, tambahkan biaya tambahan*/
         if (pickupOptions()[0] == pickupDate) {
             calculatedPrice += PRICE_FOR_SAME_DAY_PICKUP
         }
@@ -101,9 +71,7 @@ class OrderViewModel : ViewModel() {
         return formattedPrice
     }
 
-    /**
-     * Returns a list of date options starting with the current date and the following 3 dates.
-     */
+    /** Mengembalikan daftar pilihan tanggal dimulai dengan tanggal saat ini dan 3 tanggal berikut */
     private fun pickupOptions(): List<String> {
         val dateOptions = mutableListOf<String>()
         val formatter = SimpleDateFormat("E MMM d", Locale.getDefault())

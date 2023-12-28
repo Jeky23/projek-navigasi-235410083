@@ -1,4 +1,4 @@
-package com.example.cupcake.ui
+package com.example.projek_uas_235410083.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,8 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.cupcake.R
-import com.example.cupcake.ui.components.FormattedPriceLabel
+import com.example.projek_uas_235410083.R
+import com.example.projek_uas_235410083.ui.components.FormattedPriceLabel
 
 /**
  * Composable that displays the list of items as [RadioButton] options,
@@ -39,7 +39,7 @@ fun SelectOptionScreen(
     options: List<String>,
     onSelectionChanged: (String) -> Unit = {},
 
-    /* TODO 1: onCancelButtonClicked: () -> Unit = {}, dan onNextButtonClicked: () -> Unit = {},
+    /** onCancelButtonClicked: () -> Unit = {}, dan onNextButtonClicked: () -> Unit = {},
     *   adalah parameter berjenis unit untuk meneruskan parameter onClick tombol batal dan lanjut*/
     onCancelButtonClicked: () -> Unit = {},
     onNextButtonClicked: () -> Unit = {},
@@ -96,12 +96,12 @@ fun SelectOptionScreen(
             verticalAlignment = Alignment.Bottom
         ){
 
-            /*TODO 2: Teruskan onCancelButtonClicked untuk parameter onClick tombol batal*/
+            /** Teruskan onCancelButtonClicked untuk parameter onClick tombol batal*/
             OutlinedButton(modifier = Modifier.weight(1f), onClick = onCancelButtonClicked) {
                 Text(stringResource(R.string.cancel))
             }
 
-            /*TODO 3: Teruskan onNextButtonClicked untuk parameter onClick tombol berikutnya*/
+            /** Teruskan onNextButtonClicked untuk parameter onClick tombol berikutnya*/
             Button(
                 modifier = Modifier.weight(1f),
                 // the button is enabled when the user makes a selection

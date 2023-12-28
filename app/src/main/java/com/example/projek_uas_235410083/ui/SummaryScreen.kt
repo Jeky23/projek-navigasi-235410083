@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.cupcake.ui
+package com.example.projek_uas_235410083.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,17 +35,13 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.cupcake.R
-import com.example.cupcake.data.OrderUiState
-import com.example.cupcake.ui.components.FormattedPriceLabel
+import com.example.projek_uas_235410083.R
+import com.example.projek_uas_235410083.data.OrderUiState
+import com.example.projek_uas_235410083.ui.components.FormattedPriceLabel
 
-/**
- * This composable expects [orderUiState] that represents the order state, [onCancelButtonClicked]
- * lambda that triggers canceling the order and passes the final order to [onSendButtonClicked]
- * lambda
- */
 
-/*TODO 1: composable OrderSummaryScreen memiliki dua parameter bernama onCancelButtonClicked
+
+/** composable OrderSummaryScreen memiliki dua parameter bernama onCancelButtonClicked
 *  dan onSendButtonClicked dari jenis unit, keduanya digunakan untuk meneruskan parameter onClick dari tombol lanjut dan batal
 *  dua variabel yang ditentukan sebelumnya di OrderSummaryScreen. String ini terdiri dari data aktual yang dapat dibagikan pengguna kepada aplikasi lain.*/
 @Composable
@@ -109,7 +105,7 @@ fun OrderSummaryScreen(
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small))
             ) {
 
-                /*TODO 2: Teruskan onSendButtonClicked untuk parameter onClick dari tombol Send. Teruskan newOrder dan
+                /** Teruskan onSendButtonClicked untuk parameter onClick dari tombol Send. Teruskan newOrder dan
                    orderSummary,dua variabel yang ditentukan sebelumnya di OrderSummaryScreen. String ini terdiri dari
                    data aktual yang dapat dibagikan pengguna kepada aplikasi lain.*/
                 Button(
@@ -119,7 +115,7 @@ fun OrderSummaryScreen(
                     Text(stringResource(R.string.send))
                 }
 
-                /*TODO 3: Teruskan onCancelButtonClicked untuk parameter onClick pada tombol Cancel.*/
+                /** Teruskan onCancelButtonClicked untuk parameter onClick pada tombol Cancel.*/
                 OutlinedButton(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = onCancelButtonClicked

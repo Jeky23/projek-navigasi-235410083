@@ -1,19 +1,4 @@
-/*
- * Copyright (C) 2023 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-package com.example.cupcake
+package com.example.projek_uas_235410083
 
 import android.content.Context
 import android.content.Intent
@@ -43,29 +28,25 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.cupcake.data.DataSource
-import com.example.cupcake.data.OrderUiState
-import com.example.cupcake.ui.OrderSummaryScreen
-import com.example.cupcake.ui.OrderViewModel
-import com.example.cupcake.ui.SelectOptionScreen
-import com.example.cupcake.ui.StartOrderScreen
+import com.example.projek_uas_235410083.data.DataSource
+import com.example.projek_uas_235410083.ui.OrderSummaryScreen
+import com.example.projek_uas_235410083.ui.OrderViewModel
+import com.example.projek_uas_235410083.ui.SelectOptionScreen
+import com.example.projek_uas_235410083.ui.StartOrderScreen
 
-/**
- * enum values that represent the screens in the app
- */
-enum class CupcakeScreen(@StringRes val title: Int) {
+/** enum yang mewakili layar di aplikasi*/
+enum class UasScreen(@StringRes val title: Int) {
     Start(title = R.string.app_name),
     Flavor(title = R.string.choose_flavor),
     Pickup(title = R.string.choose_pickup_date),
     Summary(title = R.string.order_summary)
 }
 
-/**
- * Composable that displays the topBar and displays back button if back navigation is possible.
- */
+/**Composable menampilkan TopBar dan menampilkan tombol kembali
+jika navigasi kembali dimungkinkan. */
 @Composable
-fun CupcakeAppBar(
-    currentScreen: CupcakeScreen,
+fun UasAppBar(
+    currentScreen: UasScreen,
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
     modifier: Modifier = Modifier
@@ -90,20 +71,21 @@ fun CupcakeAppBar(
 }
 
 @Composable
-fun CupcakeApp(
+fun UasApp(
     viewModel: OrderViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
-    // Get current back stack entry
+    /**Dapatkan entri back stack saat ini*/
     val backStackEntry by navController.currentBackStackEntryAsState()
-    // Get the name of the current screen
-    val currentScreen = CupcakeScreen.valueOf(
-        backStackEntry?.destination?.route ?: CupcakeScreen.Start.name
+
+    /** Dapatkan nama layar saat ini*/
+    val currentScreen = UasScreen.valueOf(
+        backStackEntry?.destination?.route ?: UasScreen.Start.name
     )
 
     Scaffold(
         topBar = {
-            CupcakeAppBar(
+            UasAppBar(
                 currentScreen = currentScreen,
                 canNavigateBack = navController.previousBackStackEntry != null,
                 navigateUp = { navController.navigateUp() }
@@ -114,34 +96,37 @@ fun CupcakeApp(
 
         NavHost(
             navController = navController,
-            startDestination = CupcakeScreen.Start.name,
+            startDestination = UasScreen.Start.name,
             modifier = Modifier.padding(innerPadding)
         ) {
 
-            //composable untuk layar mulai / layar pertama
-            composable(route = CupcakeScreen.Start.name) {
+            /**composable untuk layar mulai / layar pertama*/
+            composable(route = UasScreen.Start.name) {
 
-                /*TODO 1:  fungsi yang memanggil navigate() saat pengguna menekan tombol pada layar Start, Flavor, dan Pickup*/
+                /**  fungsi yang memanggil navigate()
+                 * saat pengguna menekan tombol pada layar Start, Flavor, dan Pickup*/
                 StartOrderScreen(
                     quantityOptions = DataSource.quantityOptions,
                     onNextButtonClicked = {
                         viewModel.setQuantity(it)
-                        navController.navigate(CupcakeScreen.Flavor.name)
+                        navController.navigate(UasScreen.Flavor.name)
                     },
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(dimensionResource(R.dimen.padding_medium))
                 )
             }
-            composable(route = CupcakeScreen.Flavor.name) {
+            composable(route = UasScreen.Flavor.name) {
                 val context = LocalContext.current
                 SelectOptionScreen(
                     subtotal = uiState.price,
 
-                    /* TODO 2:  parameter onNextButtonClicked di layar rasa, cukup teruskan lambda yang memanggil navigate(), dengan meneruskan CupcakeScreen.Pickup.name untuk route*/
-                    onNextButtonClicked = { navController.navigate(CupcakeScreen.Pickup.name) },
+                    /**  parameter onNextButtonClicked di layar rasa, cukup teruskan lambda yang
+                     * memanggil navigate(), dengan meneruskan CupcakeScreen.Pickup.name untuk route*/
+                    onNextButtonClicked = { navController.navigate(UasScreen.Pickup.name) },
 
-                    /*TODO 3: Teruskan lambda kosong untuk onCancelButtonClicked yang akan Anda implementasikan berikutnya.*/
+                    /** Teruskan lambda kosong untuk onCancelButtonClicked yang akan Anda
+                     * implementasikan berikutnya.*/
                     onCancelButtonClicked = {
                         cancelOrderAndNavigateToStart(viewModel, navController)
                     },
@@ -150,10 +135,10 @@ fun CupcakeApp(
                     modifier = Modifier.fillMaxHeight()
                 )
             }
-            composable(route = CupcakeScreen.Pickup.name) {
+            composable(route = UasScreen.Pickup.name) {
                 SelectOptionScreen(
                     subtotal = uiState.price,
-                    onNextButtonClicked = { navController.navigate(CupcakeScreen.Summary.name) },
+                    onNextButtonClicked = { navController.navigate(UasScreen.Summary.name) },
                     onCancelButtonClicked = {
                         cancelOrderAndNavigateToStart(viewModel, navController)
                     },
@@ -162,11 +147,12 @@ fun CupcakeApp(
                     modifier = Modifier.fillMaxHeight()
                 )
             }
-            composable(route = CupcakeScreen.Summary.name) {
+            composable(route = UasScreen.Summary.name) {
                 val context = LocalContext.current
 
-                /*TODO 4: OrderSummaryScreen, meneruskan lambda kosong untuk onCancelButtonClicked dan onSendButtonClicked.
-                   Parameter subject dan summary akan diteruskan ke onSendButtonClicked */
+                /** OrderSummaryScreen, meneruskan lambda kosong untuk onCancelButtonClicked dan
+                 * onSendButtonClicked. Parameter subject dan summary akan diteruskan ke
+                 * onSendButtonClicked */
                 OrderSummaryScreen(
                     orderUiState = uiState,
                     onCancelButtonClicked = {
@@ -182,22 +168,18 @@ fun CupcakeApp(
     }
 }
 
-/**
- * Resets the [OrderUiState] and pops up to [CupcakeScreen.Start]
- */
+/** Mengatur ulang [OrderUIState] dan muncul ke [UasScreen.start] */
 private fun cancelOrderAndNavigateToStart(
     viewModel: OrderViewModel,
     navController: NavHostController
 ) {
     viewModel.resetOrder()
-    navController.popBackStack(CupcakeScreen.Start.name, inclusive = false)
+    navController.popBackStack(UasScreen.Start.name, inclusive = false)
 }
 
-/**
- * Creates an intent to share order details
- */
+/** Membuat intent untuk berbagi detail pesanan*/
 private fun shareOrder(context: Context, subject: String, summary: String) {
-    // Create an ACTION_SEND implicit intent with order details in the intent extras
+/**Buat implicit intent ACTION_SEND dengan detail pesanan di intent extras*/
     val intent = Intent(Intent.ACTION_SEND).apply {
         type = "text/plain"
         putExtra(Intent.EXTRA_SUBJECT, subject)
